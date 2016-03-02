@@ -193,19 +193,19 @@ public class Pager extends View {
 	}
 
 	private void drawCurrentPageArea(Canvas canvas, Bitmap bitmap, Path path) {
-		mPath0.reset();
-		mPath0.moveTo(mBezierStart1.x, mBezierStart1.y);
-		mPath0.quadTo(mBezierControl1.x, mBezierControl1.y, mBezierEnd1.x, mBezierEnd1.y);
-		mPath0.lineTo(mTouch.x, mTouch.y);
-		mPath0.lineTo(mBezierEnd2.x, mBezierEnd2.y);
-		mPath0.quadTo(mBezierControl2.x, mBezierControl2.y, mBezierStart2.x, mBezierStart2.y);
-		mPath0.lineTo(mCornerX, mCornerY);
-		mPath0.close();
-
-		canvas.save();
-		canvas.clipPath(path, Region.Op.XOR);
-		canvas.drawBitmap(bitmap, 0, 0, null);
-		canvas.restore();
+//		mPath0.reset();
+//		mPath0.moveTo(mBezierStart1.x, mBezierStart1.y);
+//		mPath0.quadTo(mBezierControl1.x, mBezierControl1.y, mBezierEnd1.x, mBezierEnd1.y);
+//		mPath0.lineTo(mTouch.x, mTouch.y);
+//		mPath0.lineTo(mBezierEnd2.x, mBezierEnd2.y);
+//		mPath0.quadTo(mBezierControl2.x, mBezierControl2.y, mBezierStart2.x, mBezierStart2.y);
+//		mPath0.lineTo(mCornerX, mCornerY);
+//		mPath0.close();
+//
+//		canvas.save();
+//		canvas.clipPath(path, Region.Op.XOR);
+//		canvas.drawBitmap(bitmap, 0, 0, null);
+//		canvas.restore();
 	}
 
 	private void drawNextPageAreaAndShadow(Canvas canvas, Bitmap bitmap) {
@@ -236,6 +236,7 @@ public class Pager extends View {
 		canvas.drawBitmap(bitmap, 0, 0, null);
 		canvas.rotate(mDegrees, mBezierStart1.x, mBezierStart1.y);
 		mBackShadowDrawable.setBounds(leftx, (int) mBezierStart1.y, rightx, (int) (mMaxLength + mBezierStart1.y));
+		//第二页部分的阴影
 		mBackShadowDrawable.draw(canvas);
 		canvas.restore();
 	}
@@ -334,6 +335,7 @@ public class Pager extends View {
 		rotateDegrees = (float) Math.toDegrees(Math.atan2(mTouch.x - mBezierControl1.x, mBezierControl1.y - mTouch.y));
 		canvas.rotate(rotateDegrees, mBezierControl1.x, mBezierControl1.y);
 		mCurrentPageShadow.setBounds(leftx, (int) (mBezierControl1.y - mMaxLength), rightx, (int) (mBezierControl1.y));
+		//绘制翻起页下部阴影
 		mCurrentPageShadow.draw(canvas);
 		canvas.restore();
 
@@ -348,7 +350,7 @@ public class Pager extends View {
 		canvas.clipPath(mPath1, Region.Op.INTERSECT);
 		if (mIsRTandLB) {
 			leftx = (int) (mBezierControl2.y);
-			rightx = (int) (mBezierControl2.y + 25);
+			rightx = (int) (mBezierControl2.y + 50);
 			mCurrentPageShadow = mFrontShadowDrawableHTB;
 		} else {
 			leftx = (int) (mBezierControl2.y - 25);
@@ -364,11 +366,17 @@ public class Pager extends View {
 			temp = mBezierControl2.y;
 
 		int hmg = (int) Math.hypot(mBezierControl2.x, temp);
+//		if (hmg > mMaxLength)
+//			mCurrentPageShadow.setBounds((int) (mBezierControl2.x - 25) - hmg, leftx, (int) (mBezierControl2.x + mMaxLength) - hmg, rightx);
+//		else
+//			mCurrentPageShadow.setBounds((int) (mBezierControl2.x - mMaxLength), leftx, (int) (mBezierControl2.x), rightx);
+
 		if (hmg > mMaxLength)
 			mCurrentPageShadow.setBounds((int) (mBezierControl2.x - 25) - hmg, leftx, (int) (mBezierControl2.x + mMaxLength) - hmg, rightx);
 		else
 			mCurrentPageShadow.setBounds((int) (mBezierControl2.x - mMaxLength), leftx, (int) (mBezierControl2.x), rightx);
 
+		//绘制翻起页上部阴影
 		mCurrentPageShadow.draw(canvas);
 		canvas.restore();
 	}
